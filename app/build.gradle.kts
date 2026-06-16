@@ -19,7 +19,7 @@ android {
 
     signingConfigs {
         create("release") {
-            val signingKeyB64 = System.getenv("SIGNING_KEY")
+            val signingKeyB64 = System.getenv("SIGNING_KEY")?.takeIf { it.isNotBlank() }
             if (signingKeyB64 != null) {
                 val tempKeystore = File.createTempFile("signing", ".jks")
                 tempKeystore.writeBytes(Base64.getDecoder().decode(signingKeyB64))
