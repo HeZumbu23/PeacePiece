@@ -1,0 +1,36 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <!-- Roof -->
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M48,10 L10,40 L16,40 L16,84 L80,84 L80,40 L86,40 Z" />
+    <!-- Garage door (white background) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M18,42 L78,42 L78,84 L18,84 Z" />
+    <!-- Door panels (horizontal lines) -->
+    <path
+        android:strokeColor="#1565C0"
+        android:strokeWidth="3"
+        android:pathData="M18,54 H78 M18,64 H78 M18,74 H78" />
+    <!-- Vertical center split -->
+    <path
+        android:strokeColor="#1565C0"
+        android:strokeWidth="2"
+        android:pathData="M48,42 V84" />
+    <!-- Left handle -->
+    <path
+        android:strokeColor="#455A64"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M38,64 H44" />
+    <!-- Right handle -->
+    <path
+        android:strokeColor="#455A64"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M52,64 H58" />
+</vector>

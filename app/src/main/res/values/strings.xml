@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">PeacePiece</string>
+
+    <!-- Labels -->
+    <string name="garage_label">Garagentor</string>
+    <string name="settings_title">Einstellungen</string>
+
+    <!-- Buttons -->
+    <string name="open_button">ÖFFNEN</string>
+    <string name="close_button">SCHLIESSEN</string>
+    <string name="save_button">SPEICHERN</string>
+
+    <!-- Settings -->
+    <string name="open_url_label">URL – Öffnen</string>
+    <string name="close_url_label">URL – Schließen</string>
+    <string name="url_hint">z. B. http://192.168.1.100/garage?cmd=open</string>
+    <string name="settings_saved">Einstellungen gespeichert</string>
+
+    <!-- Status -->
+    <string name="status_sending">Sende Befehl…</string>
+    <string name="status_success">Garagentor wird %1$s ✓</string>
+    <string name="status_error">Fehler: %1$s</string>
+    <string name="status_not_configured">Bitte zuerst die URL in den Einstellungen konfigurieren ⚙</string>
+
+    <!-- Action labels -->
+    <string name="action_opening">geöffnet</string>
+    <string name="action_closing">geschlossen</string>
+</resources>
