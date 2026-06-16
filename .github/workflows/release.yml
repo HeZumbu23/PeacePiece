@@ -34,11 +34,11 @@ jobs:
         with:
           gradle-version: '8.6'
 
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses 2>/dev/null || true
-
-      - name: Install Android SDK components
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      - name: Setup Android SDK
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses 2>/dev/null || true
+          "$SDKMANAGER" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Determine version
         id: version
