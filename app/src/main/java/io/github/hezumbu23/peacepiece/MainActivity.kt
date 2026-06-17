@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
         val p        = prefs()
         val baseUrl  = p.getString("base_url", "").orEmpty().trimEnd('/')
         val entityId = p.getString("entity_id", "").orEmpty()
-        val username = p.getString("username", "").orEmpty()
-        val password = p.getString("password", "").orEmpty()
+        val username = p.getString("username", "").orEmpty().trim()
+        val password = p.getString("password", "").orEmpty().trim()
 
         if (baseUrl.isBlank() || entityId.isBlank()) {
             statusText.text = getString(R.string.status_not_configured)
