@@ -87,9 +87,16 @@ class MainActivity : AppCompatActivity() {
                     conn.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
 
                     val code = conn.responseCode
-                    conn.disconnect()
                     Log.d(TAG, "← HTTP $code")
-                    if (code in 200..299) null else "HTTP $code"
+                    if (code in 200..299) {
+                        conn.disconnect()
+                        null
+                    } else {
+                        val errorBody = conn.errorStream
+                            ?.bufferedReader()?.readText()?.take(300) ?: ""
+                        conn.disconnect()
+                        "HTTP $code | $errorBody"
+                    }
                 } catch (e: Exception) {
                     Log.e(TAG, "Request failed", e)
                     e.localizedMessage ?: e.javaClass.simpleName
