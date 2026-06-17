@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         val url  = "$baseUrl/api/services/cover/$action"
         val body = """{"entity_id":"$entityId"}"""
 
-        AppLog.append("→ POST $url")
+        AppLog.append("→ POST $url (user='$username' len=${password.length})")
         Log.d(TAG, "→ POST $url  body=$body  auth=${username.isNotBlank()}")
 
         lifecycleScope.launch {
