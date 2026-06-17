@@ -31,30 +31,40 @@ class MainActivity : AppCompatActivity() {
         closeButton = findViewById(R.id.closeButton)
 
         openButton.setOnClickListener {
-            val url = prefs().getString("open_url", "").orEmpty()
-            if (url.isBlank()) showSetupHint() else sendRequest(url, getString(R.string.action_opening))
+            sendCoverCommand("open_cover", getString(R.string.action_opening))
         }
-
         closeButton.setOnClickListener {
-            val url = prefs().getString("close_url", "").orEmpty()
-            if (url.isBlank()) showSetupHint() else sendRequest(url, getString(R.string.action_closing))
+            sendCoverCommand("close_cover", getString(R.string.action_closing))
         }
     }
 
-    private fun sendRequest(urlStr: String, actionLabel: String) {
+    private fun sendCoverCommand(action: String, actionLabel: String) {
+        val p        = prefs()
+        val baseUrl  = p.getString("base_url", "").orEmpty().trimEnd('/')
+        val entityId = p.getString("entity_id", "").orEmpty()
+        val username = p.getString("username", "").orEmpty()
+        val password = p.getString("password", "").orEmpty()
+
+        if (baseUrl.isBlank() || entityId.isBlank()) {
+            statusText.text = getString(R.string.status_not_configured)
+            return
+        }
+
         setButtonsEnabled(false)
         statusText.text = getString(R.string.status_sending)
 
-        val username = prefs().getString("username", "").orEmpty()
-        val password = prefs().getString("password", "").orEmpty()
+        val url  = "$baseUrl/api/services/cover/$action"
+        val body = """{"entity_id":"$entityId"}"""
 
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 try {
-                    val conn = URL(urlStr).openConnection() as HttpURLConnection
+                    val conn = URL(url).openConnection() as HttpURLConnection
                     conn.connectTimeout = 5_000
                     conn.readTimeout    = 5_000
-                    conn.requestMethod  = "GET"
+                    conn.requestMethod  = "POST"
+                    conn.doOutput       = true
+                    conn.setRequestProperty("Content-Type", "application/json")
 
                     if (username.isNotBlank()) {
                         val credentials = Base64.encodeToString(
@@ -63,6 +73,8 @@ class MainActivity : AppCompatActivity() {
                         )
                         conn.setRequestProperty("Authorization", "Basic $credentials")
                     }
+
+                    conn.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
 
                     val code = conn.responseCode
                     conn.disconnect()
@@ -78,10 +90,6 @@ class MainActivity : AppCompatActivity() {
                 getString(R.string.status_error, result)
             }
         }
-    }
-
-    private fun showSetupHint() {
-        statusText.text = getString(R.string.status_not_configured)
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {

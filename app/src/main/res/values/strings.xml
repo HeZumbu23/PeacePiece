@@ -10,25 +10,29 @@
     <string name="close_button">SCHLIESSEN</string>
     <string name="save_button">SPEICHERN</string>
 
-    <!-- Settings -->
-    <string name="open_url_label">URL – Öffnen</string>
-    <string name="close_url_label">URL – Schließen</string>
-    <string name="url_hint">z. B. http://192.168.1.100/garage?cmd=open</string>
-    <string name="settings_saved">Einstellungen gespeichert</string>
+    <!-- Settings: Server -->
+    <string name="server_section">Server</string>
+    <string name="base_url_label">Basis-URL</string>
+    <string name="base_url_hint">z. B. https://deine.duckdns.org</string>
 
-    <!-- Status -->
-    <string name="status_sending">Sende Befehl…</string>
-    <string name="status_success">Garagentor wird %1$s ✓</string>
-    <string name="status_error">Fehler: %1$s</string>
-    <string name="status_not_configured">Bitte zuerst die URL in den Einstellungen konfigurieren ⚙</string>
+    <!-- Settings: Garagentor -->
+    <string name="entity_id_label">Entity ID</string>
+    <string name="entity_id_hint">z. B. cover.00241a49a7690b</string>
 
-    <!-- Action labels -->
-    <string name="action_opening">geöffnet</string>
-    <string name="action_closing">geschlossen</string>
-
-    <!-- Authentication -->
+    <!-- Settings: Auth -->
     <string name="auth_section">Authentifizierung</string>
     <string name="username_label">Benutzername</string>
     <string name="password_label">Passwort</string>
     <string name="auth_hint">Leer lassen wenn keine Authentifizierung benötigt wird</string>
+
+    <!-- Feedback -->
+    <string name="settings_saved">Einstellungen gespeichert</string>
+    <string name="status_sending">Sende Befehl…</string>
+    <string name="status_success">Garagentor wird %1$s ✓</string>
+    <string name="status_error">Fehler: %1$s</string>
+    <string name="status_not_configured">Bitte Basis-URL und Entity ID in den Einstellungen konfigurieren ⚙</string>
+
+    <!-- Action labels -->
+    <string name="action_opening">geöffnet</string>
+    <string name="action_closing">geschlossen</string>
 </resources>
