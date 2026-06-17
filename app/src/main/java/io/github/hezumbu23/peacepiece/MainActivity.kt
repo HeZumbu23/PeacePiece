@@ -2,6 +2,7 @@ package io.github.hezumbu23.peacepiece
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -25,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        statusText = findViewById(R.id.statusText)
-        openButton = findViewById(R.id.openButton)
+        statusText  = findViewById(R.id.statusText)
+        openButton  = findViewById(R.id.openButton)
         closeButton = findViewById(R.id.closeButton)
 
         openButton.setOnClickListener {
@@ -44,13 +45,25 @@ class MainActivity : AppCompatActivity() {
         setButtonsEnabled(false)
         statusText.text = getString(R.string.status_sending)
 
+        val username = prefs().getString("username", "").orEmpty()
+        val password = prefs().getString("password", "").orEmpty()
+
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 try {
                     val conn = URL(urlStr).openConnection() as HttpURLConnection
                     conn.connectTimeout = 5_000
-                    conn.readTimeout = 5_000
-                    conn.requestMethod = "GET"
+                    conn.readTimeout    = 5_000
+                    conn.requestMethod  = "GET"
+
+                    if (username.isNotBlank()) {
+                        val credentials = Base64.encodeToString(
+                            "$username:$password".toByteArray(Charsets.UTF_8),
+                            Base64.NO_WRAP
+                        )
+                        conn.setRequestProperty("Authorization", "Basic $credentials")
+                    }
+
                     val code = conn.responseCode
                     conn.disconnect()
                     if (code in 200..299) null else "HTTP $code"
@@ -72,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {
-        openButton.isEnabled = enabled
+        openButton.isEnabled  = enabled
         closeButton.isEnabled = enabled
     }
 

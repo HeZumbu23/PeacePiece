@@ -15,16 +15,22 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val prefs = getSharedPreferences("peacepiece_prefs", MODE_PRIVATE)
-        val openUrlEdit = findViewById<TextInputEditText>(R.id.openUrlEdit)
+        val openUrlEdit  = findViewById<TextInputEditText>(R.id.openUrlEdit)
         val closeUrlEdit = findViewById<TextInputEditText>(R.id.closeUrlEdit)
+        val usernameEdit = findViewById<TextInputEditText>(R.id.usernameEdit)
+        val passwordEdit = findViewById<TextInputEditText>(R.id.passwordEdit)
 
-        openUrlEdit.setText(prefs.getString("open_url", ""))
+        openUrlEdit.setText(prefs.getString("open_url",  ""))
         closeUrlEdit.setText(prefs.getString("close_url", ""))
+        usernameEdit.setText(prefs.getString("username",  ""))
+        passwordEdit.setText(prefs.getString("password",  ""))
 
         findViewById<Button>(R.id.saveButton).setOnClickListener {
             prefs.edit()
-                .putString("open_url", openUrlEdit.text.toString().trim())
+                .putString("open_url",  openUrlEdit.text.toString().trim())
                 .putString("close_url", closeUrlEdit.text.toString().trim())
+                .putString("username",  usernameEdit.text.toString())
+                .putString("password",  passwordEdit.text.toString())
                 .apply()
             Toast.makeText(this, R.string.settings_saved, Toast.LENGTH_SHORT).show()
             finish()

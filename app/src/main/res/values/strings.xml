@@ -25,4 +25,10 @@
     <!-- Action labels -->
     <string name="action_opening">geöffnet</string>
     <string name="action_closing">geschlossen</string>
+
+    <!-- Authentication -->
+    <string name="auth_section">Authentifizierung</string>
+    <string name="username_label">Benutzername</string>
+    <string name="password_label">Passwort</string>
+    <string name="auth_hint">Leer lassen wenn keine Authentifizierung benötigt wird</string>
 </resources>
