@@ -88,7 +88,8 @@ class MainActivity : AppCompatActivity() {
                     conn.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
 
                     val code = conn.responseCode
-                    Log.d(TAG, "← HTTP $code")
+                    val xDebug = conn.getHeaderField("X-Debug") ?: "missing"
+                    Log.d(TAG, "← HTTP $code  X-Debug=$xDebug")
                     if (code in 200..299) {
                         conn.disconnect()
                         null
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                         val errorBody = conn.errorStream
                             ?.bufferedReader()?.readText()?.take(300) ?: ""
                         conn.disconnect()
-                        "HTTP $code | $errorBody"
+                        "HTTP $code | X-Debug=$xDebug | $errorBody"
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Request failed", e)
