@@ -3,6 +3,7 @@ package io.github.hezumbu23.peacepiece
 import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -16,6 +17,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
+
+    companion object { private const val TAG = "PeacePiece" }
 
     private lateinit var statusText: TextView
     private lateinit var openButton: Button
@@ -56,6 +59,8 @@ class MainActivity : AppCompatActivity() {
         val url  = "$baseUrl/api/services/cover/$action"
         val body = """{"entity_id":"$entityId"}"""
 
+        Log.d(TAG, "→ POST $url  body=$body  auth=${username.isNotBlank()}")
+
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 try {
@@ -78,8 +83,10 @@ class MainActivity : AppCompatActivity() {
 
                     val code = conn.responseCode
                     conn.disconnect()
+                    Log.d(TAG, "← HTTP $code")
                     if (code in 200..299) null else "HTTP $code"
                 } catch (e: Exception) {
+                    Log.e(TAG, "Request failed", e)
                     e.localizedMessage ?: e.javaClass.simpleName
                 }
             }
