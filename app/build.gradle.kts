@@ -24,9 +24,9 @@ android {
                 val tempKeystore = File.createTempFile("signing", ".jks")
                 tempKeystore.writeBytes(Base64.getDecoder().decode(signingKeyB64))
                 storeFile = tempKeystore
-                storePassword = System.getenv("KEY_STORE_PASSWORD")
-                keyAlias = System.getenv("KEY_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
+                storePassword = System.getenv("KEY_STORE_PASSWORD")?.trim()
+                keyAlias = System.getenv("KEY_ALIAS")?.trim()?.takeIf { it.isNotBlank() } ?: "peacepiece-release"
+                keyPassword = System.getenv("KEY_PASSWORD")?.trim()
             } else {
                 storeFile = rootProject.file("keystore/debug.jks")
                 storePassword = "peacepiece"
