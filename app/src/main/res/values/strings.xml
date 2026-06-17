@@ -35,4 +35,9 @@
     <!-- Action labels -->
     <string name="action_opening">geöffnet</string>
     <string name="action_closing">geschlossen</string>
+
+    <!-- Log -->
+    <string name="log_title">Log</string>
+    <string name="log_clear">Log leeren</string>
+    <string name="log_empty">(kein Eintrag)</string>
 </resources>
