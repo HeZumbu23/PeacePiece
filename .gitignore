@@ -7,5 +7,4 @@
 /captures
 .externalNativeBuild
 .cxx
-*.jks
-!keystore/debug.jks
+keystore/
