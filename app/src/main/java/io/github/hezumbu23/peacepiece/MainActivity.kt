@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
     private lateinit var openButton: Button
     private lateinit var closeButton: Button
+    private lateinit var logText: TextView
+    private lateinit var logScroll: ScrollView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +38,12 @@ class MainActivity : AppCompatActivity() {
         statusText  = findViewById(R.id.statusText)
         openButton  = findViewById(R.id.openButton)
         closeButton = findViewById(R.id.closeButton)
+        logText     = findViewById(R.id.logText)
+        logScroll   = findViewById(R.id.logScroll)
+
+        @Suppress("DEPRECATION")
+        val versionName = try { packageManager.getPackageInfo(packageName, 0).versionName } catch (e: Exception) { "?" }
+        findViewById<TextView>(R.id.versionText).text = "v$versionName"
 
         openButton.setOnClickListener {
             sendCoverCommand("open_cover", getString(R.string.action_opening))
@@ -39,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         closeButton.setOnClickListener {
             sendCoverCommand("close_cover", getString(R.string.action_closing))
         }
+    }
+
+    private fun appendLog(msg: String) {
+        val time = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+        logText.append("$time $msg\n")
+        logScroll.post { logScroll.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 
     private fun sendCoverCommand(action: String, actionLabel: String) {
@@ -59,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         val url  = "$baseUrl/api/services/cover/$action"
         val body = """{"entity_id":"$entityId"}"""
 
+        appendLog("→ POST $url")
         Log.d(TAG, "→ POST $url  body=$body  auth=${username.isNotBlank()}")
 
         lifecycleScope.launch {
@@ -91,10 +110,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             setButtonsEnabled(true)
-            statusText.text = if (result == null) {
-                getString(R.string.status_success, actionLabel)
+            if (result == null) {
+                appendLog("← HTTP 200 OK")
+                statusText.text = getString(R.string.status_success, actionLabel)
             } else {
-                getString(R.string.status_error, result)
+                appendLog("✗ $result")
+                statusText.text = getString(R.string.status_error, result)
             }
         }
     }
