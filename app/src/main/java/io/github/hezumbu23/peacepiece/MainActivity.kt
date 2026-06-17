@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -16,9 +15,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,8 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
     private lateinit var openButton: Button
     private lateinit var closeButton: Button
-    private lateinit var logText: TextView
-    private lateinit var logScroll: ScrollView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         statusText  = findViewById(R.id.statusText)
         openButton  = findViewById(R.id.openButton)
         closeButton = findViewById(R.id.closeButton)
-        logText     = findViewById(R.id.logText)
-        logScroll   = findViewById(R.id.logScroll)
 
         @Suppress("DEPRECATION")
         val versionName = try { packageManager.getPackageInfo(packageName, 0).versionName } catch (e: Exception) { "?" }
@@ -51,12 +43,6 @@ class MainActivity : AppCompatActivity() {
         closeButton.setOnClickListener {
             sendCoverCommand("close_cover", getString(R.string.action_closing))
         }
-    }
-
-    private fun appendLog(msg: String) {
-        val time = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
-        logText.append("$time $msg\n")
-        logScroll.post { logScroll.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 
     private fun sendCoverCommand(action: String, actionLabel: String) {
@@ -77,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         val url  = "$baseUrl/api/services/cover/$action"
         val body = """{"entity_id":"$entityId"}"""
 
-        appendLog("→ POST $url")
+        AppLog.append("→ POST $url")
         Log.d(TAG, "→ POST $url  body=$body  auth=${username.isNotBlank()}")
 
         lifecycleScope.launch {
@@ -111,10 +97,10 @@ class MainActivity : AppCompatActivity() {
             }
             setButtonsEnabled(true)
             if (result == null) {
-                appendLog("← HTTP 200 OK")
+                AppLog.append("← HTTP 200 OK")
                 statusText.text = getString(R.string.status_success, actionLabel)
             } else {
-                appendLog("✗ $result")
+                AppLog.append("✗ $result")
                 statusText.text = getString(R.string.status_error, result)
             }
         }
@@ -133,10 +119,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_settings) {
-            startActivity(Intent(this, SettingsActivity::class.java))
-            return true
+        return when (item.itemId) {
+            R.id.action_log -> {
+                startActivity(Intent(this, LogActivity::class.java))
+                true
+            }
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 }
