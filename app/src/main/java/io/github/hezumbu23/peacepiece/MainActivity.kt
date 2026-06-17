@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                     val conn = URL(url).openConnection() as HttpURLConnection
                     conn.connectTimeout = 5_000
                     conn.readTimeout    = 5_000
+                    conn.instanceFollowRedirects = false
                     conn.requestMethod  = "POST"
                     conn.doOutput       = true
                     conn.setRequestProperty("Content-Type", "application/json")
