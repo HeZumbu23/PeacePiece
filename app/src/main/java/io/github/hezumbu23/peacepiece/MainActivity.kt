@@ -2,7 +2,6 @@ package io.github.hezumbu23.peacepiece
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -18,7 +17,10 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-    companion object { private const val TAG = "PeacePiece" }
+    companion object {
+        private const val TAG = "PeacePiece"
+        private const val ENTITY_ID = "cover.00241a49a7690b"
+    }
 
     private lateinit var statusText: TextView
     private lateinit var openButton: Button
@@ -46,13 +48,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendCoverCommand(action: String, actionLabel: String) {
-        val p        = prefs()
-        val baseUrl  = p.getString("base_url", "").orEmpty().trimEnd('/')
-        val entityId = p.getString("entity_id", "").orEmpty()
-        val username = p.getString("username", "").orEmpty().trim()
-        val password = p.getString("password", "").orEmpty().trim()
+        val p             = prefs()
+        val baseUrl       = p.getString("base_url",         "").orEmpty().trimEnd('/')
+        val cfClientId    = p.getString("cf_client_id",     "").orEmpty().trim()
+        val cfClientSecret = p.getString("cf_client_secret","").orEmpty().trim()
+        val haToken       = p.getString("ha_token",         "").orEmpty().trim()
 
-        if (baseUrl.isBlank() || entityId.isBlank()) {
+        if (baseUrl.isBlank() || haToken.isBlank()) {
             statusText.text = getString(R.string.status_not_configured)
             return
         }
@@ -61,10 +63,10 @@ class MainActivity : AppCompatActivity() {
         statusText.text = getString(R.string.status_sending)
 
         val url  = "$baseUrl/api/services/cover/$action"
-        val body = """{"entity_id":"$entityId"}"""
+        val body = """{"entity_id":"$ENTITY_ID"}"""
 
-        AppLog.append("→ POST $url (user='$username' len=${password.length})")
-        Log.d(TAG, "→ POST $url  body=$body  auth=${username.isNotBlank()}")
+        AppLog.append("→ POST $url")
+        Log.d(TAG, "→ POST $url  body=$body")
 
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -72,24 +74,20 @@ class MainActivity : AppCompatActivity() {
                     val conn = URL(url).openConnection() as HttpURLConnection
                     conn.connectTimeout = 5_000
                     conn.readTimeout    = 5_000
-                    conn.instanceFollowRedirects = false
                     conn.requestMethod  = "POST"
                     conn.doOutput       = true
                     conn.setRequestProperty("Content-Type", "application/json")
+                    conn.setRequestProperty("Authorization", "Bearer $haToken")
 
-                    if (username.isNotBlank()) {
-                        val credentials = Base64.encodeToString(
-                            "$username:$password".toByteArray(Charsets.UTF_8),
-                            Base64.NO_WRAP
-                        )
-                        conn.setRequestProperty("Authorization", "Basic $credentials")
+                    if (cfClientId.isNotBlank()) {
+                        conn.setRequestProperty("CF-Access-Client-Id",     cfClientId)
+                        conn.setRequestProperty("CF-Access-Client-Secret", cfClientSecret)
                     }
 
                     conn.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
 
                     val code = conn.responseCode
-                    val xDebug = conn.getHeaderField("X-Debug") ?: "missing"
-                    Log.d(TAG, "← HTTP $code  X-Debug=$xDebug")
+                    Log.d(TAG, "← HTTP $code")
                     if (code in 200..299) {
                         conn.disconnect()
                         null
@@ -97,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                         val errorBody = conn.errorStream
                             ?.bufferedReader()?.readText()?.take(300) ?: ""
                         conn.disconnect()
-                        "HTTP $code | X-Debug=$xDebug | $errorBody"
+                        "HTTP $code | $errorBody"
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Request failed", e)
