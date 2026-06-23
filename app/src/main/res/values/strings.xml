@@ -13,24 +13,25 @@
     <!-- Settings: Server -->
     <string name="server_section">Server</string>
     <string name="base_url_label">Basis-URL</string>
-    <string name="base_url_hint">z. B. https://deine.duckdns.org</string>
+    <string name="base_url_hint">z. B. https://peace.example.com</string>
 
-    <!-- Settings: Garagentor -->
-    <string name="entity_id_label">Entity ID</string>
-    <string name="entity_id_hint">z. B. cover.00241a49a7690b</string>
+    <!-- Settings: Cloudflare Access -->
+    <string name="cf_section">Cloudflare Access</string>
+    <string name="cf_client_id_label">CF-Access-Client-Id</string>
+    <string name="cf_client_secret_label">CF-Access-Client-Secret</string>
+    <string name="cf_hint">Leer lassen wenn kein Cloudflare Access verwendet wird</string>
 
-    <!-- Settings: Auth -->
-    <string name="auth_section">Authentifizierung</string>
-    <string name="username_label">Benutzername</string>
-    <string name="password_label">Passwort</string>
-    <string name="auth_hint">Leer lassen wenn keine Authentifizierung benötigt wird</string>
+    <!-- Settings: Home Assistant -->
+    <string name="ha_section">Home Assistant</string>
+    <string name="ha_token_label">Long-Lived Token</string>
+    <string name="ha_token_hint">HA → Profil → Langlebige Zugangstokens</string>
 
     <!-- Feedback -->
     <string name="settings_saved">Einstellungen gespeichert</string>
     <string name="status_sending">Sende Befehl…</string>
     <string name="status_success">Garagentor wird %1$s ✓</string>
     <string name="status_error">Fehler: %1$s</string>
-    <string name="status_not_configured">Bitte Basis-URL und Entity ID in den Einstellungen konfigurieren ⚙</string>
+    <string name="status_not_configured">Bitte Basis-URL und Token in den Einstellungen konfigurieren ⚙</string>
 
     <!-- Action labels -->
     <string name="action_opening">geöffnet</string>
