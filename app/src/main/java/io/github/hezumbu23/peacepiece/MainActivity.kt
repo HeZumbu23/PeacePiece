@@ -19,51 +19,62 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "PeacePiece"
-        private const val ENTITY_ID = "cover.00241a49a7690b"
+        private const val ENTITY_GARAGE  = "cover.00241a49a7690b"
+        private const val ENTITY_ESPRESSO = "switch.nous_steckdosenschalter_4"
     }
 
     private lateinit var statusText: TextView
     private lateinit var openButton: Button
     private lateinit var closeButton: Button
+    private lateinit var espressoOnButton: Button
+    private lateinit var espressoOffButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        statusText  = findViewById(R.id.statusText)
-        openButton  = findViewById(R.id.openButton)
-        closeButton = findViewById(R.id.closeButton)
+        statusText       = findViewById(R.id.statusText)
+        openButton       = findViewById(R.id.openButton)
+        closeButton      = findViewById(R.id.closeButton)
+        espressoOnButton  = findViewById(R.id.espressoOnButton)
+        espressoOffButton = findViewById(R.id.espressoOffButton)
 
         @Suppress("DEPRECATION")
         val versionName = try { packageManager.getPackageInfo(packageName, 0).versionName } catch (e: Exception) { "?" }
         findViewById<TextView>(R.id.versionText).text = "v$versionName"
 
         openButton.setOnClickListener {
-            sendCoverCommand("open_cover", getString(R.string.action_opening))
+            sendCommand("cover", "open_cover", ENTITY_GARAGE, getString(R.string.action_opening))
         }
         closeButton.setOnClickListener {
-            sendCoverCommand("close_cover", getString(R.string.action_closing))
+            sendCommand("cover", "close_cover", ENTITY_GARAGE, getString(R.string.action_closing))
+        }
+        espressoOnButton.setOnClickListener {
+            sendCommand("switch", "turn_on", ENTITY_ESPRESSO, getString(R.string.action_on))
+        }
+        espressoOffButton.setOnClickListener {
+            sendCommand("switch", "turn_off", ENTITY_ESPRESSO, getString(R.string.action_off))
         }
     }
 
-    private fun sendCoverCommand(action: String, actionLabel: String) {
-        val p             = prefs()
-        val baseUrl       = p.getString("base_url",         "").orEmpty().trimEnd('/')
-        val cfClientId    = p.getString("cf_client_id",     "").orEmpty().trim()
-        val cfClientSecret = p.getString("cf_client_secret","").orEmpty().trim()
-        val haToken       = p.getString("ha_token",         "").orEmpty().trim()
+    private fun sendCommand(domain: String, service: String, entityId: String, actionLabel: String) {
+        val p              = prefs()
+        val baseUrl        = p.getString("base_url",          "").orEmpty().trimEnd('/')
+        val cfClientId     = p.getString("cf_client_id",      "").orEmpty().trim()
+        val cfClientSecret = p.getString("cf_client_secret",  "").orEmpty().trim()
+        val haToken        = p.getString("ha_token",           "").orEmpty().trim()
 
         if (baseUrl.isBlank() || haToken.isBlank()) {
             statusText.text = getString(R.string.status_not_configured)
             return
         }
 
-        setButtonsEnabled(false)
+        setAllButtonsEnabled(false)
         statusText.text = getString(R.string.status_sending)
 
-        val url  = "$baseUrl/api/services/cover/$action"
-        val body = """{"entity_id":"$ENTITY_ID"}"""
+        val url  = "$baseUrl/api/services/$domain/$service"
+        val body = """{"entity_id":"$entityId"}"""
 
         AppLog.append("→ POST $url")
         Log.d(TAG, "→ POST $url  body=$body")
@@ -102,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                     e.localizedMessage ?: e.javaClass.simpleName
                 }
             }
-            setButtonsEnabled(true)
+            setAllButtonsEnabled(true)
             if (result == null) {
                 AppLog.append("← HTTP 200 OK")
                 statusText.text = getString(R.string.status_success, actionLabel)
@@ -113,9 +124,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setButtonsEnabled(enabled: Boolean) {
-        openButton.isEnabled  = enabled
-        closeButton.isEnabled = enabled
+    private fun setAllButtonsEnabled(enabled: Boolean) {
+        openButton.isEnabled        = enabled
+        closeButton.isEnabled       = enabled
+        espressoOnButton.isEnabled  = enabled
+        espressoOffButton.isEnabled = enabled
     }
 
     private fun prefs() = getSharedPreferences("peacepiece_prefs", MODE_PRIVATE)
