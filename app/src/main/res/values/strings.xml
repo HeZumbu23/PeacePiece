@@ -5,9 +5,14 @@
     <string name="garage_label">Garagentor</string>
     <string name="settings_title">Einstellungen</string>
 
+    <!-- Labels -->
+    <string name="espresso_label">Espressomaschine</string>
+
     <!-- Buttons -->
     <string name="open_button">ÖFFNEN</string>
     <string name="close_button">SCHLIESSEN</string>
+    <string name="on_button">EIN</string>
+    <string name="off_button">AUS</string>
     <string name="save_button">SPEICHERN</string>
 
     <!-- Settings: Server -->
@@ -29,13 +34,15 @@
     <!-- Feedback -->
     <string name="settings_saved">Einstellungen gespeichert</string>
     <string name="status_sending">Sende Befehl…</string>
-    <string name="status_success">Garagentor wird %1$s ✓</string>
+    <string name="status_success">%1$s ✓</string>
     <string name="status_error">Fehler: %1$s</string>
     <string name="status_not_configured">Bitte Basis-URL und Token in den Einstellungen konfigurieren ⚙</string>
 
     <!-- Action labels -->
-    <string name="action_opening">geöffnet</string>
-    <string name="action_closing">geschlossen</string>
+    <string name="action_opening">Garagentor wird geöffnet</string>
+    <string name="action_closing">Garagentor wird geschlossen</string>
+    <string name="action_on">Espressomaschine eingeschaltet</string>
+    <string name="action_off">Espressomaschine ausgeschaltet</string>
 
     <!-- Log -->
     <string name="log_title">Log</string>

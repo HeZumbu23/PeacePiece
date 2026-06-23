@@ -16,13 +16,20 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_name" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="32dp">
+        android:gravity="center_horizontal"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
 
         <ImageView
             android:layout_width="96dp"
@@ -81,7 +88,59 @@
             android:layout_marginTop="28dp"
             android:gravity="center" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/text_secondary"
+            android:alpha="0.3"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="32dp" />
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_espresso"
+            android:contentDescription="@string/espresso_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/espresso_label"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="28dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/espressoOnButton"
+            android:layout_width="240dp"
+            android:layout_height="68dp"
+            android:text="@string/on_button"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/button_open"
+            app:cornerRadius="12dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/espressoOffButton"
+            android:layout_width="240dp"
+            android:layout_height="68dp"
+            android:text="@string/off_button"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/button_close"
+            app:cornerRadius="12dp" />
+
     </LinearLayout>
+
+    </ScrollView>
 
     <TextView
         android:id="@+id/versionText"
