@@ -16,131 +16,150 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_name" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp">
 
-        <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/ic_garage"
-            android:contentDescription="@string/garage_label" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/garage_label"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="40dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/openButton"
-            android:layout_width="240dp"
-            android:layout_height="68dp"
-            android:text="@string/open_button"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/button_open"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_arrow_up"
-            app:iconGravity="start"
-            app:iconPadding="12dp" />
-
-        <View
+        <!-- Garage -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="16dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/closeButton"
-            android:layout_width="240dp"
-            android:layout_height="68dp"
-            android:text="@string/close_button"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/button_close"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_arrow_down"
-            app:iconGravity="start"
-            app:iconPadding="12dp" />
-
-        <TextView
-            android:id="@+id/statusText"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/text_secondary"
-            android:layout_marginTop="28dp"
-            android:gravity="center" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_garage"
+                android:contentDescription="@string/garage_label" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/garage_label"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginStart="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/openButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/open_button"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/button_open"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_arrow_up"
+                app:iconSize="14dp"
+                app:iconPadding="4dp"
+                app:iconGravity="start" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/close_button"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:layout_marginStart="8dp"
+                app:backgroundTint="@color/button_close"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_arrow_down"
+                app:iconSize="14dp"
+                app:iconPadding="4dp"
+                app:iconGravity="start" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/text_secondary"
-            android:alpha="0.3"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="32dp" />
+            android:alpha="0.2"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
 
-        <ImageView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@drawable/ic_espresso"
-            android:contentDescription="@string/espresso_label" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Espresso -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/espresso_label"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="28dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/espressoOnButton"
-            android:layout_width="240dp"
-            android:layout_height="68dp"
-            android:text="@string/on_button"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/button_open"
-            app:cornerRadius="12dp" />
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_espresso"
+                android:contentDescription="@string/espresso_label" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/espresso_label"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginStart="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/espressoOnButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/on_button"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/button_open"
+                app:cornerRadius="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/espressoOffButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/off_button"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:layout_marginStart="8dp"
+                app:backgroundTint="@color/button_close"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="16dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/espressoOffButton"
-            android:layout_width="240dp"
-            android:layout_height="68dp"
-            android:text="@string/off_button"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/button_close"
-            app:cornerRadius="12dp" />
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary"
+            android:gravity="center" />
 
     </LinearLayout>
-
-    </ScrollView>
 
     <TextView
         android:id="@+id/versionText"

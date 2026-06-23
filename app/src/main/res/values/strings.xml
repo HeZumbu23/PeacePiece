@@ -35,6 +35,7 @@
     <string name="qr_scan_button">QR-Code einlesen</string>
     <string name="qr_imported">Eingelesen – bitte prüfen und speichern</string>
     <string name="qr_invalid">Ungültiger QR-Code</string>
+    <string name="qr_info">Format (JSON):\n{\"base_url\":\"…\", \"ha_token\":\"…\",\n\"cf_client_id\":\"…\", \"cf_client_secret\":\"…\"}\n\nOffline generieren (PC):\npip install qrcode[pil]\npython3 tools/gen_qr.py</string>
 
     <!-- Feedback -->
     <string name="settings_saved">Einstellungen gespeichert</string>
